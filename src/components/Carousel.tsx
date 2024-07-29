@@ -9,10 +9,15 @@ import
     StyledItemWrapper,
     StyledRoot
 } from './Styled';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+  forwardRef,
+  ChangeEvent,
+  useImperativeHandle,
+} from "react";
 
-
-export const Carousel = (props: CarouselProps) =>
+export const Carousel = forwardRef((props: CarouselProps, ref) =>
 {
 
     const [state, setState] = useState({
@@ -150,6 +155,15 @@ export const Carousel = (props: CarouselProps) =>
         return true;
     }   
 
+    useImperativeHandle(ref, () => ({
+      nextFunction(event?: ChangeEvent<HTMLButtonElement>) {
+        next(event);
+      },
+      prevFunction(event?: ChangeEvent<HTMLButtonElement>) {
+        prev(event);
+      },
+    }));
+
     return (
         <StyledRoot
             sx={sx}
@@ -248,6 +262,6 @@ export const Carousel = (props: CarouselProps) =>
             }
         </StyledRoot>
     )
-}
+})
 
 export default Carousel;
